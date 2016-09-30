@@ -11,10 +11,17 @@ import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.events.DelayedMapListener;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import info.zamojski.soft.towercollector.BuildConfig;
+import info.zamojski.soft.towercollector.MyApplication;
 import info.zamojski.soft.towercollector.R;
 import info.zamojski.soft.towercollector.events.MeasurementSavedEvent;
 import info.zamojski.soft.towercollector.events.PrintMainWindowEvent;
@@ -46,8 +53,25 @@ public class MainMapFragment extends MainFragmentBase {
         mainMapView = (MapView) view.findViewById(R.id.main_map);
         mainMapView.setBuiltInZoomControls(true);
         mainMapView.setMultiTouchControls(true);
-        mainMapView.setMinZoomLevel(13);
-        mainMapView.setMaxZoomLevel(20);
+        mainMapView.setMinZoomLevel(getResources().getInteger(R.integer.preferences_main_map_zoom_level_min_value));
+        mainMapView.setMaxZoomLevel(getResources().getInteger(R.integer.preferences_main_map_zoom_level_max_value));
+
+        IMapController mapController = mainMapView.getController();
+        mapController.setZoom(MyApplication.getPreferencesProvider().getMainMapZoomLevel());
+        mainMapView.setMapListener(new DelayedMapListener(new MapListener() {
+            @Override
+            public boolean onScroll(ScrollEvent scrollEvent) {
+                return false;
+            }
+
+            @Override
+            public boolean onZoom(ZoomEvent zoomEvent) {
+                MyApplication.getPreferencesProvider().setMainMapZoomLevel(zoomEvent.getZoomLevel());
+                return false;
+            }
+        }));
+
+        mapController.setCenter(new GeoPoint(52.069167, 19.480556));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

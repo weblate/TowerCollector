@@ -138,4 +138,13 @@ public class PreferencesProvider {
     public void setMainWindowRecentTab(int tabIndex) {
         integerPreferenceProvider.setPreference(R.string.preferences_main_window_recent_tab_key, tabIndex);
     }
+
+    public int getMainMapZoomLevel() {
+        int value = integerPreferenceProvider.getPreference(R.string.preferences_main_map_zoom_level_key, R.integer.preferences_main_map_zoom_level_default_value);
+        return value;
+    }
+
+    public void setMainMapZoomLevel(int zoomLevel) {
+        integerPreferenceProvider.setPreference(R.string.preferences_main_map_zoom_level_key, zoomLevel);
+    }
 }

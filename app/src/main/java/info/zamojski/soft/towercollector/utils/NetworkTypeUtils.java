@@ -52,4 +52,19 @@ public class NetworkTypeUtils {
                 return NetworkGroup.Unknown;
         }
     }
+
+    public static int convertNetworkGroupToDrawable(NetworkGroup networkType) {
+        switch (networkType) {
+            case Gsm:
+                return R.drawable.dot_green;
+            case Wcdma:
+                return R.drawable.dot_red;
+            case Lte:
+                return R.drawable.dot_blue;
+            case Cdma:
+                return R.drawable.dot_yellow;
+            default:
+                return R.drawable.dot_white;
+        }
+    }
 }

@@ -5,6 +5,7 @@
 package info.zamojski.soft.towercollector.views;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import info.zamojski.soft.towercollector.dao.MeasurementsDatabase;
 import info.zamojski.soft.towercollector.events.MeasurementSavedEvent;
 import info.zamojski.soft.towercollector.events.PrintMainWindowEvent;
 import info.zamojski.soft.towercollector.model.Measurement;
+import info.zamojski.soft.towercollector.utils.NetworkTypeUtils;
 
 public class MainMapFragment extends MainFragmentBase {
 
@@ -95,6 +97,8 @@ public class MainMapFragment extends MainFragmentBase {
             ArrayList<OverlayItem> items = new ArrayList<>();
             for (Measurement m : measurements) {
                 OverlayItem item = new OverlayItem(null, null, new GeoPoint(m.getLatitude(), m.getLongitude()));
+                int drawableId = NetworkTypeUtils.convertNetworkGroupToDrawable(m.getNetworkType());
+                item.setMarker(ContextCompat.getDrawable(getContext(), drawableId));
                 items.add(item);
             }
 

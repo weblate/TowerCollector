@@ -90,6 +90,7 @@ dependencies {
     compile 'com.github.kevinsawicki:http-request:6.0'
     compile 'co.trikita:log:1.1.5'
     compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
+    compile 'org.osmdroid:osmdroid-android:5.4.1:release@aar'
     apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
 }
 

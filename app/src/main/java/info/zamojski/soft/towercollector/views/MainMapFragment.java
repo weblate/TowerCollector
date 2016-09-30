@@ -19,12 +19,19 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import info.zamojski.soft.towercollector.BuildConfig;
 import info.zamojski.soft.towercollector.MyApplication;
 import info.zamojski.soft.towercollector.R;
+import info.zamojski.soft.towercollector.dao.MeasurementsDatabase;
 import info.zamojski.soft.towercollector.events.MeasurementSavedEvent;
 import info.zamojski.soft.towercollector.events.PrintMainWindowEvent;
+import info.zamojski.soft.towercollector.model.Measurement;
 
 public class MainMapFragment extends MainFragmentBase {
 
@@ -71,7 +78,30 @@ public class MainMapFragment extends MainFragmentBase {
             }
         }));
 
-        mapController.setCenter(new GeoPoint(52.069167, 19.480556));
+        printLastMeasurements(mapController);
+    }
+
+    private void printLastMeasurements(IMapController mapController) {
+        Measurement lastMeasurement = MeasurementsDatabase.getInstance(getContext()).getLastMeasurement();
+        if (lastMeasurement != null) {
+            GeoPoint startPoint = new GeoPoint(lastMeasurement.getLatitude(), lastMeasurement.getLongitude());
+            mapController.setCenter(startPoint);
+
+            // TODO: temporarily load last 1000 measurements instead of these visible
+            List<Measurement> measurements = MeasurementsDatabase.getInstance(getContext()).getOlderMeasurements(System.currentTimeMillis(), 0, 1000);
+
+            // TODO: don't print on main thread
+            // create markers
+            ArrayList<OverlayItem> items = new ArrayList<>();
+            for (Measurement m : measurements) {
+                OverlayItem item = new OverlayItem(null, null, new GeoPoint(m.getLatitude(), m.getLongitude()));
+                items.add(item);
+            }
+
+            // create overlay
+            ItemizedOverlayWithFocus<OverlayItem> overlay = new ItemizedOverlayWithFocus<>(items, null, getContext());
+            mainMapView.getOverlays().add(overlay);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

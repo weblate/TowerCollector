@@ -17,8 +17,10 @@ import org.acra.data.StringFormat;
 import org.acra.sender.HttpSender;
 import org.greenrobot.eventbus.EventBus;
 
+import info.zamojski.soft.towercollector.analytics.CompositeReportingService;
 import info.zamojski.soft.towercollector.analytics.GoogleAnalyticsReportingService;
 import info.zamojski.soft.towercollector.analytics.IAnalyticsReportingService;
+import info.zamojski.soft.towercollector.analytics.PiwikReportingService;
 import info.zamojski.soft.towercollector.logging.AndroidFilePrinter;
 import info.zamojski.soft.towercollector.providers.AppThemeProvider;
 import info.zamojski.soft.towercollector.providers.preferences.PreferencesProvider;
@@ -59,7 +61,7 @@ public class MyApplication extends Application {
         initUnhandledExceptionHandler();
         initEventBus();
         initTheme();
-        initGA();
+        initAnalytics();
     }
 
     private void initUnhandledExceptionHandler() {
@@ -122,11 +124,14 @@ public class MyApplication extends Application {
         appTheme = themeProvider.getTheme(appThemeName);
     }
 
-    private void initGA() {
-        Log.d("initGA(): Initializing Google Analytics");
+    private void initAnalytics() {
         boolean trackingEnabled = getPreferencesProvider().getTrackingEnabled();
         boolean dryRun = BuildConfig.DEBUG;
-        analyticsService = new GoogleAnalyticsReportingService(this, trackingEnabled, dryRun);
+        Log.d("initAnalytics(): Initializing Google Analytics");
+        IAnalyticsReportingService gaService = new GoogleAnalyticsReportingService(this, trackingEnabled, dryRun);
+        Log.d("initAnalytics(): Initializing Piwik");
+        IAnalyticsReportingService piwikService = new PiwikReportingService(this, trackingEnabled, dryRun);
+        analyticsService = new CompositeReportingService(gaService, piwikService);
     }
 
     private void initACRA() {

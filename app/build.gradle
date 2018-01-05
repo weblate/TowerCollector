@@ -36,6 +36,7 @@ android {
         buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_PASSWORD", props['acra_formUriBasicAuthPassword']
         // Other
         buildConfigField "String", "UPDATE_CHECK_FEED_URI", props['other_updateCheckFeedUri']
+        buildConfigField "String", "ANALYTICS_SERVICE_URI", props['other_analyticsServiceUri']
         buildConfigField "String", "CONTACT_EMAIL", props['other_contactEmail']
     }
     signingConfigs {
@@ -86,6 +87,7 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:26.1.0'
     compile 'com.google.android.gms:play-services-analytics:9.8.0'
+    compile 'org.piwik.sdk:piwik-sdk:3.0.0'
     compile 'org.greenrobot:eventbus:3.1.1'
     compile 'ch.acra:acra-http:5.0.0'
     compile 'org.sufficientlysecure:html-textview:3.5'

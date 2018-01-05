@@ -283,7 +283,6 @@ public class UploaderService extends Service {
                 } catch (IOException ex) {
                     // this should never happen for MemoryTextDevice
                     Log.e(INNER_TAG, "run(): Error while generating file", ex);
-                    MyApplication.getAnalytics().sendException(ex, Boolean.TRUE);
                     ACRA.getErrorReporter().handleSilentException(ex);
                     uploadResult = UploadResult.Failed;
                 }

@@ -43,14 +43,6 @@ public class GoogleAnalyticsReportingService implements IAnalyticsReportingServi
     }
 
     @Override
-    public void sendException(Throwable throwable, boolean isFatal) {
-        this.tracker.send(new HitBuilders.ExceptionBuilder()
-                .setDescription(new StandardExceptionParser(this.application, null).getDescription(Thread.currentThread().getName(), throwable))
-                .setFatal(isFatal)
-                .build());
-    }
-
-    @Override
     public void sendMainActivityStarted() {
         this.tracker.setScreenName(Screens.MainActivity);
         this.tracker.send(new HitBuilders.ScreenViewBuilder().build());

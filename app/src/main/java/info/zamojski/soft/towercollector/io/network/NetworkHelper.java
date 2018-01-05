@@ -4,17 +4,15 @@
 
 package info.zamojski.soft.towercollector.io.network;
 
+import com.github.kevinsawicki.http.HttpRequest;
+import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
+
+import org.acra.ACRA;
+
 import java.io.EOFException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-
-import info.zamojski.soft.towercollector.MyApplication;
-
-import org.acra.ACRA;
-
-import com.github.kevinsawicki.http.HttpRequest;
-import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -70,7 +68,6 @@ public class NetworkHelper {
                 && !(originalException instanceof EOFException)
                 && !(originalException instanceof SSLHandshakeException)) {
             // known exceptions suppressed
-            MyApplication.getAnalytics().sendException(ex, Boolean.FALSE);
             ACRA.getErrorReporter().handleSilentException(ex);
         }
         return new ResponseData();

@@ -4,23 +4,6 @@
 
 package info.zamojski.soft.towercollector.dao;
 
-import info.zamojski.soft.towercollector.MyApplication;
-import info.zamojski.soft.towercollector.dao.migration.DbMigrationHelper;
-import info.zamojski.soft.towercollector.enums.NetworkGroup;
-import info.zamojski.soft.towercollector.model.AnalyticsStatistics;
-import info.zamojski.soft.towercollector.model.Boundaries;
-import info.zamojski.soft.towercollector.model.CellsCount;
-import info.zamojski.soft.towercollector.model.Measurement;
-import info.zamojski.soft.towercollector.model.Statistics;
-import info.zamojski.soft.towercollector.utils.HashUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.acra.ACRA;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,6 +12,21 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 
+import org.acra.ACRA;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import info.zamojski.soft.towercollector.dao.migration.DbMigrationHelper;
+import info.zamojski.soft.towercollector.enums.NetworkGroup;
+import info.zamojski.soft.towercollector.model.AnalyticsStatistics;
+import info.zamojski.soft.towercollector.model.Boundaries;
+import info.zamojski.soft.towercollector.model.CellsCount;
+import info.zamojski.soft.towercollector.model.Measurement;
+import info.zamojski.soft.towercollector.model.Statistics;
+import info.zamojski.soft.towercollector.utils.HashUtils;
 import trikita.log.Log;
 
 public class MeasurementsDatabase {
@@ -168,7 +166,6 @@ public class MeasurementsDatabase {
                 // report exception because it shouldn't occur (one time per app run)
                 if (!insertionFailureReported) {
                     Throwable ex = new MeasurementInsertionFailedException("Measurements not inserted", resultSb.toString());
-                    MyApplication.getAnalytics().sendException(ex, Boolean.FALSE);
                     ACRA.getErrorReporter().handleSilentException(ex);
                     insertionFailureReported = true;
                 }

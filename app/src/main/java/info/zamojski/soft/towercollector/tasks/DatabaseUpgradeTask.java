@@ -36,7 +36,6 @@ public class DatabaseUpgradeTask {
             MyApplication.getAnalytics().sendMigrationFinished(duration, oldDbVersion, stats);
         } catch (RuntimeException ex) {
             Log.e("doInBackground(): Database migration crashed", ex);
-            MyApplication.getAnalytics().sendException(ex, Boolean.TRUE);
             ACRA.getErrorReporter().handleSilentException(ex);
             throw ex;
         }

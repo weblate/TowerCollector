@@ -434,7 +434,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             alertDialog.show();
         } catch (NotFoundException ex) {
             Log.w("displayUploadResultDialog(): Invalid string id received with intent extras: %s", descriptionId);
-            MyApplication.getAnalytics().sendException(ex, Boolean.FALSE);
             ACRA.getErrorReporter().handleSilentException(ex);
         }
     }
@@ -843,7 +842,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             startActivity(createDataRoamingSettingsIntent());
         } catch (ActivityNotFoundException ex) {
             Log.w("askAndSetGpsEnabled(): Could not open Settings to change network type", ex);
-            MyApplication.getAnalytics().sendException(ex, Boolean.FALSE);
             ACRA.getErrorReporter().handleSilentException(ex);
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).setMessage(R.string.dialog_could_not_open_network_type_settings).setPositiveButton(R.string.dialog_ok, null).create();
             alertDialog.setCanceledOnTouchOutside(true);
@@ -966,7 +964,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                             showAskForLocationSettingsDialog = true;
                         } catch (ActivityNotFoundException ex2) {
                             Log.w("askAndSetGpsEnabled(): Could not open Settings to enable GPS");
-                            MyApplication.getAnalytics().sendException(ex2, Boolean.FALSE);
                             ACRA.getErrorReporter().handleSilentException(ex2);
                             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).setMessage(R.string.dialog_could_not_open_gps_settings).setPositiveButton(R.string.dialog_ok, null).create();
                             alertDialog.setCanceledOnTouchOutside(true);

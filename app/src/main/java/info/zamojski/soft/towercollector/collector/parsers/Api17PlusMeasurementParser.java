@@ -136,7 +136,6 @@ public class Api17PlusMeasurementParser extends MeasurementParser {
         } else {
             Log.e("parse(): Error while saving measurement");
             Exception ex = new Exception("Measurement save failed");
-            MyApplication.getAnalytics().sendException(ex, Boolean.FALSE);
             ACRA.getErrorReporter().handleSilentException(ex);
             return ParseResult.SaveFailed;
         }

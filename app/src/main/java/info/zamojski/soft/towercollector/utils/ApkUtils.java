@@ -24,9 +24,6 @@ import trikita.log.Log;
 public class ApkUtils {
     private static final String TAG = ApkUtils.class.getSimpleName();
 
-    public static final String ANDROID_MARKET_STORE_PACKAGE_NAME = "com.google.market";
-    public static final String GOOGLE_PLAY_STORE_PACKAGE_NAME = "com.android.vending";
-
     public static int getApkVersionCode(Context context) {
         return getApkVersionCode(context, context.getPackageName());
     }
@@ -38,7 +35,6 @@ public class ApkUtils {
             currentAppVersion = pi.versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
             Log.e("getApkVersionCode(): Current version number not found", ex);
-            MyApplication.getAnalytics().sendException(ex, Boolean.TRUE);
             ACRA.getErrorReporter().handleSilentException(ex);
         }
         return currentAppVersion;
@@ -51,7 +47,6 @@ public class ApkUtils {
             currentAppVersion = pi.versionName;
         } catch (PackageManager.NameNotFoundException ex) {
             Log.e("getApkVersionName(): Current version name not found", ex);
-            MyApplication.getAnalytics().sendException(ex, Boolean.TRUE);
             ACRA.getErrorReporter().handleSilentException(ex);
         }
         return currentAppVersion;

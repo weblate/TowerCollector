@@ -12,8 +12,6 @@ public interface IAnalyticsReportingService {
 
     void setAppOptOut(boolean optOut);
 
-    void sendException(Throwable throwable, boolean isFatal);
-
     void sendMainActivityStarted();
 
     void sendMainActivityStopped();
